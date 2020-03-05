@@ -54,7 +54,7 @@ def make_choice(check_city_val)
     check_city_val.each do |obj|
         puts " "
         puts obj.id
-        puts "Adress: "+ obj.street
+        puts "Address: "+ obj.street
         puts "Description: "+ obj.bio
     end
 
