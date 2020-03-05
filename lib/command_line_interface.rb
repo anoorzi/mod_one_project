@@ -1,4 +1,18 @@
 def check_country
+
+    unique_country = []
+    Room.all.each do |obj|
+        unique_country << obj.country
+    end
+    unique_country = unique_country.uniq
+    
+    puts " "
+    puts "Avalible Countries are:"
+
+    unique_country.each do |obj|
+        puts obj
+    end
+    
     puts "Which country are you booking a room in ?"
     room_country = gets.chomp
     
@@ -9,6 +23,22 @@ end
 
 
 def check_city(country_list) 
+
+    unique_city = []
+    country_list.each do |obj|
+        unique_city << obj.city
+    end
+    unique_city = unique_city.uniq
+    
+    puts " "
+    puts "Avalible Cities are:"
+
+    unique_city.each do |obj|
+        puts obj
+    end
+    
+   
+    
     puts "Which city are you booking in?"
     room_city = gets.chomp
 
@@ -18,6 +48,15 @@ def check_city(country_list)
 end
 
 def make_choice(check_city_val)
+
+    check_city_val.each do |obj|
+        puts " "
+        puts obj.id
+        puts obj.street
+        puts obj.bio
+    end
+
+    puts " "
     puts "Enter desired locations room ID"
     room_choice_id = gets.chomp.to_i
 

@@ -20,6 +20,8 @@ room1 = Room.create( country: "united states",city: "new york city", street: "20
 room2 = Room.create( country: "united states",city: "los angeles", street: "150-18 75th ave", price: "900", bio: "one bedroom apartment with hot water" )
 room3 = Room.create( country: "canada",city: "toronto", street: "5th ave times square", price: "450", bio:"high tower rise with a downtown view of the city" )
 room4 = Room.create( country: "canada",city: "vancover", street: "19th street 23 ave", price: "1600", bio: "nice little ranch with the horses and chickens" )
+room5 = Room.create( country: "canada",city: "toronto", street: "north 31 street", price: "200", bio:"nice cabin in a ski lounge with a sauna" )
+room6 = Room.create( country: "canada",city: "vancover", street: "southwest ave", price: "700", bio: "an igloo in the ice" )
 
 
     binding.pry
