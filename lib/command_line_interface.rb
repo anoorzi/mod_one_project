@@ -191,7 +191,7 @@ def startup
 end
 
 def delete_me(bool,user_id)
-    if bool == "false"
+    if bool == false
         prompt = TTY::Prompt.new
     
         user_input = prompt.select('Would you like to cancel your last reservation?', %w(Yes No))
