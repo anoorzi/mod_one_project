@@ -1,4 +1,7 @@
+require "tty-prompt"
+require "pry"
 def check_country
+    prompt = TTY::Prompt.new
 
     unique_country = []
     Room.all.each do |obj|
@@ -9,12 +12,7 @@ def check_country
     puts " "
     puts "Avalible Countries are:"
 
-    unique_country.each do |obj|
-        puts obj
-    end
-    
-    puts "Which country are you booking a room in ?"
-    room_country = gets.chomp
+    room_country = prompt.select("Which country are you booking a room in?",unique_country)
     
     Room.all.select do |room_obj|
         room_obj["country"]== room_country 
@@ -23,6 +21,7 @@ end
 
 
 def check_city(country_list) 
+    prompt = TTY::Prompt.new
 
     unique_city = []
     country_list.each do |obj|
@@ -33,14 +32,16 @@ def check_city(country_list)
     puts " "
     puts "Avalible Cities are:"
 
-    unique_city.each do |obj|
-        puts obj
-    end
+    room_city = prompt.select("Which city are you booking a room in?",unique_city)
+
+    # unique_city.each do |obj|
+    #     puts obj
+    # end
     
    
     
-    puts "Which city are you booking in?"
-    room_city = gets.chomp
+    # puts "Which city are you booking in?"
+    # room_city = gets.chomp
 
     country_list.select do |obj| 
         obj["city"] == room_city 
@@ -48,6 +49,7 @@ def check_city(country_list)
 end
 
 def make_choice(check_city_val)
+    prompt = TTY::Prompt.new
 
     check_city_val.each do |obj|
         puts " "
@@ -67,12 +69,14 @@ def make_choice(check_city_val)
 end
 
 def sign_up
-    
+    prompt = TTY::Prompt.new
+
     puts "Create a username"
     username = gets.chomp
 
-    puts "Create a password"
-    password = gets.chomp
+    password = prompt.mask("Create a password")
+    # puts "Create a password"
+    # password = gets.chomp
     
     puts "What is your name?" 
     user_name = gets.chomp
@@ -93,11 +97,14 @@ end
 
 
 def login 
+    prompt = TTY::Prompt.new
+
     puts "Enter username"
     user_name = gets.chomp
 
-    puts "Enter password"
-    user_password = gets.chomp
+    user_password = prompt.mask("Enter Password")
+    # puts "Enter password"
+    # user_password = gets.chomp
     main_user = User.all.find do |obj|
                 obj["username"] == user_name && obj["password"] == user_password
                  end
@@ -122,8 +129,11 @@ def create_booking(user_id)
 
     if bool == false
         b1 = Booking.create(user_id: user_id ,room_id: var3,check_in: cin_date, check_out: cout_date)
-
+    else 
+        puts "Reservation failed. Date already booked!"
     end
+
+    bool
 
    
 end
@@ -141,11 +151,15 @@ def checks_dates(room_id,desired_checkin,desired_checkout)
 end
 
 def update_user_bio(user_id)
+    prompt = TTY::Prompt.new
+    bio_ans= prompt.select("Would you like to update your bio", %w(Yes No))
 
-    puts "What is your new bio?" 
-    new_bio = gets.chomp
-
-    User.update(user_id, :bio => new_bio)
+    if bio_ans == "Yes"
+        puts "Enter new bio"
+        new_bio = gets.chomp
+        User.update(user_id, :bio => new_bio)
+    end
+    
 end
 
 def get_user(user_id)
@@ -159,14 +173,15 @@ end
 
 def startup
     while true do
-    
-        puts "Would you like to login or signup?"
-        user_input = gets.chomp
+        prompt = TTY::Prompt.new
+        user_input = prompt.select("Would you like to login or signup", %w(Login Signup))
+        # puts "Would you like to login or signup?"
+        # user_input = gets.chomp
 
-         if user_input == "login"
+         if user_input == "Login"
              the_user_id = login
              break
-          elsif user_input == "signup" 
+          elsif user_input == "Signup" 
           the_user_id = sign_up
          break
          end
@@ -175,15 +190,16 @@ def startup
     the_user_id
 end
 
-def delete_me(user_id)
-
-    puts "Would you like to cancel your last reservations, yes or no?"
-    user_input = gets.chomp
-
-    if user_input == "yes"
-        Booking.where(user_id: user_id).last.destroy
-    end
+def delete_me(bool,user_id)
+    if bool == "false"
+        prompt = TTY::Prompt.new
     
+        user_input = prompt.select('Would you like to cancel your last reservation?', %w(Yes No))
+
+        if user_input == "Yes"
+             Booking.where(user_id: user_id).last.destroy
+        end
+    end
 end
 
 
