@@ -53,9 +53,9 @@ def make_choice(check_city_val)
 
     check_city_val.each do |obj|
         puts " "
-        puts obj.id
-        puts "Address: "+ obj.street
-        puts "Description: "+ obj.bio
+        puts "Room ID Number: "+ obj.id.to_s
+        puts obj.street
+        puts obj.bio
     end
 
     puts " "
@@ -191,7 +191,7 @@ def startup
 end
 
 def delete_me(bool,user_id)
-    if bool == "false"
+    if bool == false
         prompt = TTY::Prompt.new
     
         user_input = prompt.select('Would you like to cancel your last reservation?', %w(Yes No))
